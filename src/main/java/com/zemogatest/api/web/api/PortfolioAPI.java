@@ -42,10 +42,11 @@ public class PortfolioAPI {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response edit(Portfolio portfolio) {
         repository.update(portfolio);
         return Response.ok()
-                .status(Response.Status.ACCEPTED)
+                .status(Response.Status.CREATED)
                 .entity(portfolio).build();
     }
 

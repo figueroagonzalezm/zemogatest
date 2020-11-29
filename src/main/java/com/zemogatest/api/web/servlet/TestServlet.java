@@ -5,6 +5,7 @@
  */
 package com.zemogatest.api.web.servlet;
 
+import com.zemogatest.api.web.helper.TweetsHelper;
 import com.zemogatest.web.entity.Portfolio;
 import com.zemogatest.web.service.PortfolioRepository;
 import java.io.IOException;
@@ -25,6 +26,9 @@ public class TestServlet extends HttpServlet {
 
     @Inject
     PortfolioRepository repository;
+    
+    @Inject
+    TweetsHelper tweets;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,6 +44,8 @@ public class TestServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             Portfolio portfolio = repository.find(1);
             System.out.println(portfolio);
+            
+            tweets.getUsrTimeline();
         }
     }
 
