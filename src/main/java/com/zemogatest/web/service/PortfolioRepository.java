@@ -6,12 +6,12 @@
 package com.zemogatest.web.service;
 
 //import com.zemogatest.portfolio.entity.Portfolio;
+import com.zemogatest.web.dao.PortfolioDAO;
 import com.zemogatest.web.exception.PortfolioNotFoundException;
 import com.zemogatest.web.entity.Portfolio;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PostRemove;
 
 /**
@@ -21,49 +21,39 @@ import javax.persistence.PostRemove;
 @Stateless
 public class PortfolioRepository {
 
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("portfolioPU");
+    @Inject
+    PortfolioDAO portfolioDAO;
 
-    
-    public Portfolio find(Integer id){
-        EntityManager em = emf.createEntityManager();
-        try {
-            Portfolio portfolio =  em.find(Portfolio.class, id);
-            if(portfolio == null)
-                throw new PortfolioNotFoundException();
-            return portfolio;            
-        } finally {
-            em.close();
-        }
+    public PortfolioRepository() {
+    }
+
+    public PortfolioRepository(PortfolioDAO portfolioDAO) {
+        this.portfolioDAO = portfolioDAO;
     }
     
-    public Portfolio create(Portfolio portfolio){
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(portfolio);
-            em.getTransaction().commit();
-            return portfolio;
-        } finally {
-            em.close();
-        }
+    public Portfolio findPortfolio(Integer id){
+        Portfolio portfolio = portfolioDAO.find(id);
+        if(portfolio == null)
+            throw new PortfolioNotFoundException();        
+        return portfolio;
     }
     
-    public Portfolio update(Portfolio portfolio){
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.merge(portfolio);
-            em.getTransaction().commit();
-            return portfolio;
-        } finally {
-            em.close();
-        }
+    public Portfolio createPortfolio(Portfolio portfolio){
+        return portfolioDAO.save(portfolio);
+    }
+    
+    public Portfolio updatePortfolio(Portfolio portfolio){
+        return portfolioDAO.update(portfolio);
+    }
+    public void updateImage(Portfolio entity) {
+        Portfolio portfolio = portfolioDAO.find(entity.getIdportfolio());
+        if(portfolio == null)
+            throw new PortfolioNotFoundException();
+        portfolio.setImageUrl(entity.getImageUrl());
+        portfolioDAO.update(portfolio);
     }
             
-    @PostRemove
-    private void closeAll() {
-        //close entity manager factory
-        emf.close();
-    }    
+
+
 
 }

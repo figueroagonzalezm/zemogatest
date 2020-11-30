@@ -4,10 +4,55 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Miguel Figueroa Portfolio</title>
+        <style type="text/css">
+            .logo {
+                width: 5%
+            }
+
+            .detail {
+                width: 95%;
+                padding-left: 10px;
+            }
+
+            .detail td {
+                font-size: 20px;
+            }
+        </style>        
     </h:head>
     <h:body>
-        <p:inputText value="#{portfolioBean.portfolio.description}"/>
+        <h1 style="font-family: Arial,sans-serif;">Miguel Figueroa</h1>
+        <p:panel>
+            <p:panel header="Personal Profile" style="width: 60%; display: inline-block;">
+                <h:panelGrid columns="2" >
+                    <p:outputPanel style="margin-right: 5px;">
+                        <p:graphicImage url="#{portfolioBean.portfolio.imageUrl}" width="250px" height="250px"/>
+                    </p:outputPanel>
+                    <p:outputPanel style="text-align: center;">
+
+                        #{portfolioBean.portfolio.description}                       
+
+                    </p:outputPanel>
+
+                </h:panelGrid>
+            </p:panel>
+            <p:panel header="Timeline" style="width: 30%; display: inline-block;margin-left: 5px;">
+                <p:repeat value="#{portfolioBean.tweetInfoList}" var="tweet">
+                    <h:panelGrid columns="2" columnClasses="logo,detail">
+                        <p:graphicImage url="#{tweet.imgUrl}" width="40px" height="40px"/>
+                        <h:panelGrid>
+                            <h:outputText value="#{tweet.postedBy}" style="font-weight: bold; width: 100%" />
+                            <h:outputText value="#{tweet.text}" style="width: 100%"/>
+                            <h:outputText value="#{tweet.createdAt}" style="font-size: smaller"/>
+                            <hr/>
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+
+                </p:repeat>
+            </p:panel>
+
+        </p:panel>
     </h:body>
 </html>
 

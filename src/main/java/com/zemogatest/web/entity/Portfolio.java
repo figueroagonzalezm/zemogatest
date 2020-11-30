@@ -24,15 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "portfolio", catalog = "", schema = "zemoga_test_db")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Portfolio.findAll", query = "SELECT p FROM Portfolio p"),
-    @NamedQuery(name = "Portfolio.findByIdportfolio", query = "SELECT p FROM Portfolio p WHERE p.idportfolio = :idportfolio"),
-    @NamedQuery(name = "Portfolio.findByDescription", query = "SELECT p FROM Portfolio p WHERE p.description = :description"),
-    @NamedQuery(name = "Portfolio.findByImageUrl", query = "SELECT p FROM Portfolio p WHERE p.imageUrl = :imageUrl"),
-    @NamedQuery(name = "Portfolio.findByTwitterUserName", query = "SELECT p FROM Portfolio p WHERE p.twitterUserName = :twitterUserName"),
-    @NamedQuery(name = "Portfolio.findByTitle", query = "SELECT p FROM Portfolio p WHERE p.title = :title"),
-    @NamedQuery(name = "Portfolio.findByTittle", query = "SELECT p FROM Portfolio p WHERE p.tittle = :tittle"),
-    @NamedQuery(name = "Portfolio.findByIdPortafolio", query = "SELECT p FROM Portfolio p WHERE p.idPortafolio = :idPortafolio")})
 public class Portfolio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,7 +48,7 @@ public class Portfolio implements Serializable {
     @Column(name = "tittle")
     private String tittle;
     @Basic(optional = false)
-    @NotNull
+    @NotNull        
     @Column(name = "id_portafolio")
     private int idPortafolio;
     

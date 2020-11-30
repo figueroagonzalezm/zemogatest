@@ -5,6 +5,8 @@
  */
 package com.zemogatest.api.web.helper;
 
+import com.zemogatest.web.model.TweetInfo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,24 +30,27 @@ public class TweetsHelper {
 
     private TwitterFactory tf;
 
-    public ResponseList<Status> getUsrTimeline() {
-
-        ResponseList<Status> results = null;
+    public List<TweetInfo> getUsrTimeline() {
+        List<TweetInfo> tweetInfoList = new ArrayList<>();
         try {
             Twitter twitter = tf.getInstance();
-            results = twitter.getUserTimeline();
+            ResponseList<Status> results = twitter.getUserTimeline();
 
-            for (Status result : results) {
-
-                System.out.println(result.getUser().getScreenName());
-                System.out.println(result.getUser().get400x400ProfileImageURL());
-                System.out.println(result.getCreatedAt());
-                System.out.println(result.getText());
+            for (Status tweet : results) {
+                TweetInfo tweetInfo = new TweetInfo();
+                tweetInfo.setId(tweet.getId());
+                tweetInfo.setCreatedAt(tweet.getCreatedAt());
+                tweetInfo.setPostedBy(tweet.getUser().getName());
+                
+                tweetInfo.setImgUrl(tweet.getUser().get400x400ProfileImageURL());
+                tweetInfo.setText(tweet.getText());
+                tweetInfoList.add(tweetInfo);
+                
             }
         } catch (TwitterException ex) {
             Logger.getLogger(TweetsHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return results;
+        return tweetInfoList;
     }
     
     @PostConstruct

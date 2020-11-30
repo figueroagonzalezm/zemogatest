@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.zemogatest.api.web.api;
+package com.zemogatest.web.api;
 
 
 import com.zemogatest.web.entity.Portfolio;
@@ -34,7 +34,7 @@ public class PortfolioAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response create(Portfolio entity) {
-        Portfolio portfolio = repository.create(entity);
+        Portfolio portfolio = repository.createPortfolio(entity);
         return Response.ok().
                 status(Response.Status.CREATED)
                 .entity(portfolio).build();
@@ -44,7 +44,7 @@ public class PortfolioAPI {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response edit(Portfolio portfolio) {
-        repository.update(portfolio);
+        repository.updatePortfolio(portfolio);
         return Response.ok()
                 .status(Response.Status.CREATED)
                 .entity(portfolio).build();
@@ -54,8 +54,18 @@ public class PortfolioAPI {
     @Path(value = "{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response find(@PathParam("id") Integer id) {
-        Portfolio portfolio = repository.find(id);
+        Portfolio portfolio = repository.findPortfolio(id);
         return Response.ok().entity(portfolio).build();
+    }
+    
+    @PUT
+    @Path(value = "{id}/image_url")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response updateImage(@PathParam("id") Integer id, Portfolio entity) {
+        entity.setIdportfolio(id);
+        repository.updateImage(entity);
+        return Response.ok().build();
     }
 
 }
